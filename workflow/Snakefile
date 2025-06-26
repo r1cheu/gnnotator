@@ -6,13 +6,12 @@
 
 # load configuration
 # -----------------------------------------------------
-configfile: "config/config.yml"
+# configfile: "config/config.yml"
 
 
 # load rules
 # -----------------------------------------------------
-include: "rules/common.smk"
-include: "rules/process_reads.smk"
+include: "rules/mask_repeat.smk"
 
 
 # optional messages, log and error handling
@@ -33,5 +32,6 @@ onerror:
 # -----------------------------------------------------
 rule all:
     input:
-        "results/multiqc/multiqc_report.html",
+        "results/mask_repeat/test.masked.fa",
+        "results/mask_repeat/test.masked.fa.tbl",
     default_target: True

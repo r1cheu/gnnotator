@@ -1,8 +1,7 @@
-name: validate_genome
+name: mask_repeat
 channels:
   - conda-forge
   - bioconda
   - nodefaults
 dependencies:
-  - python=3.12
-  - biopython=1.85
+  - repeatmasker=4.0.6
