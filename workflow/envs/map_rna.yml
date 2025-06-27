@@ -1,0 +1,8 @@
+name: map_rna
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - hisat2=2.2.1
+  - samtools=1.21
+  - stringtie=3.0.0

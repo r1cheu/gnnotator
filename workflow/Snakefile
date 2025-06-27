@@ -12,6 +12,7 @@
 # load rules
 # -----------------------------------------------------
 include: "rules/mask_repeat.smk"
+include: "rules/map_rna.smk"
 
 
 # optional messages, log and error handling
@@ -32,6 +33,5 @@ onerror:
 # -----------------------------------------------------
 rule all:
     input:
-        "results/mask_repeat/test.masked.fa",
-        "results/mask_repeat/test.masked.fa.tbl",
+        "results/map_rna/1GS-002/Merge.gtf",
     default_target: True

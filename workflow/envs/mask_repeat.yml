@@ -2,6 +2,7 @@ name: mask_repeat
 channels:
   - conda-forge
   - bioconda
-  - nodefaults
 dependencies:
   - repeatmasker=4.0.6
+  - rmblast
+  - perl
