@@ -21,7 +21,7 @@ rule hisat2_index:
         "../envs/map_rna.yml"
     shell:
         """
-        hisat2-build {input.masked_fa} {params.prefix} &>>{log}
+        hisat2-build {input.masked_fa} {params.prefix} &>{log}
         """
 
 

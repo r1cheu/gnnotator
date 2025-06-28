@@ -1,0 +1,10 @@
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - snap-hmm-maker
+  - miniprot
+  - evidencemodeler
+  - perl
+  - emboss

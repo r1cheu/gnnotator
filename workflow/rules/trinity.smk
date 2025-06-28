@@ -1,0 +1,70 @@
+rule trinity_genome_guided:
+    input:
+        bam="results/map_rna/{species}/Merge.bam",
+    output:
+        fa="results/trinity/{species}/trinity_genome_guided.fasta",
+    log:
+        "logs/trinity/{species}/genome_guided.log",
+    params:
+        dir="results/trinity/{species}/trinity_genome_guided",
+    conda:
+        "../envs/trinity.yml"
+    threads: 24
+    shell:
+        """
+        Trinity --genome_guided_bam {input.bam} \
+            --genome_guided_max_intron 10000 \
+            --max_memory 100G \
+            --CPU {threads} \
+            --output {params.dir} &>{log}
+        mv {params.dir}/Trinity-GG.fasta {output.fa}
+        rm -rf {params.dir}
+        """
+
+
+rule trinity_de_novo:
+    input:
+        r1=expand(
+            "data/rnaseq/{species}_{tissue}_R1.fastq",
+            species="{species}",
+            tissue=["fringe", "leaf", "root", "seedling"],
+        ),
+        r2=expand(
+            "data/rnaseq/{species}_{tissue}_R2.fastq",
+            species="{species}",
+            tissue=["fringe", "leaf", "root", "seedling"],
+        ),
+    output:
+        fa="results/trinity/{species}/trinity_de_novo.Trinity.fasta",
+    log:
+        "logs/trinity/{species}/denovo.log",
+    conda:
+        "../envs/trinity.yml"
+    params:
+        dir="results/trinity/{species}/trinity_de_novo",
+        left_reads=lambda wildcards, input: ",".join(input.r1),
+        right_reads=lambda wildcards, input: ",".join(input.r2),
+    threads: 24
+    shell:
+        """
+        Trinity --seqType fq \
+            --max_memory 100G \
+            --left {params.left_reads} \
+            --right {params.right_reads} \
+            --CPU {threads} \
+            --output {params.dir} &> {log}
+
+        rm -rf {params.dir}
+        """
+
+
+rule combine_trinity_outputs:
+    input:
+        denovo=rules.trinity_de_novo.output.fa,
+        genome_guided=rules.trinity_genome_guided.output.fa,
+    output:
+        combined="results/trinity/{species}/{species}.fa",
+    shell:
+        """
+        cat {input.denovo} {input.genome_guided} > {output.combined}
+        """

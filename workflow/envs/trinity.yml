@@ -1,0 +1,8 @@
+name: trinity
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - trinity=2.15.2
+  - samtools=1.21
+  - perl
