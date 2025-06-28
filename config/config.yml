@@ -6,3 +6,9 @@ get_genome:
 simulate_reads:
   read_length: 100
   read_number: 10000
+
+gene_prediction:
+  snap_hmm: "/path/to/your/snap.hmm"
+  protein_db: "/path/to/your/protein.fasta"
+  evm_weight_template: "/path/to/your/weight_v10.txt"
+

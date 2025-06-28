@@ -22,21 +22,22 @@ rule install_repeatmasker_library:
 rule mask_repeat:
     input:
         libraries_installed="results/repeatmaskerlibraries-20150807.done",
-        genome="data/assembly/{spcies}.fa",
+        genome="data/assembly/{species}.fa",
     output:
-        masked="results/mask_repeat/{spcies}.masked.fa",
-        tbl="results/mask_repeat/{spcies}.masked.fa.tbl",
+        masked="results/mask_repeat/{species}.masked.fa",
+        tbl="results/mask_repeat/{species}.masked.fa.tbl",
     conda:
         "../envs/mask_repeat.yml"
     message:
-        "Masking repeats in {wildcards.spcies} assembly"
+        "Masking repeats in {wildcards.species} assembly"
     log:
-        "logs/mask_repeat/{spcies}.log",
+        "logs/mask_repeat/{species}.log",
+    threads: 8
     shell:
         """
-        RepeatMasker -engine rmblast -pa 20 -nolow -species rice -dir results/mask_repeat/ {input.genome} > {log} 2>&1
+        RepeatMasker -engine rmblast -pa {threads} -nolow -species rice -dir results/mask_repeat/ {input.genome} &>{log}
 
-        mv results/mask_repeat/{wildcards.spcies}.fa.masked {output.masked}
+        mv results/mask_repeat/{wildcards.species}.fa.masked {output.masked}
 
-        mv results/mask_repeat/{wildcards.spcies}.fa.tbl {output.tbl} 
+        mv results/mask_repeat/{wildcards.species}.fa.tbl {output.tbl} 
         """
