@@ -1,13 +1,18 @@
-samplesheet: ".test/config/samples.tsv"
+# ---------------------------------------------------
+# PASA Pipeline Configuration
+# ---------------------------------------------------
+pasa_config:
+  params:
+    validate_alignments_in_db.dbi:
+      --MIN_PERCENT_ALIGNED: 75
+      --MIN_AVG_PER_ID: 95
+      --NUM_BP_PERFECT_SPLICE_BOUNDARY: 0
 
-get_genome:
-  ncbi_ftp: https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/146/045/GCF_000146045.2_R64/GCF_000146045.2_R64_genomic.fna.gz
+    subcluster_builder.dbi:
+      -m: 50
 
-simulate_reads:
-  read_length: 100
-  read_number: 10000
-
-gene_prediction:
-  snap_hmm: "/path/to/your/snap.hmm"
-  protein_db: "/path/to/your/protein.fasta"
-  evm_weight_template: "/path/to/your/weight_v10.txt"
+rna_seq_tissues:
+  - fringe
+  - leaf
+  - root
+  - seedling

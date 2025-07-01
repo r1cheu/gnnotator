@@ -14,7 +14,7 @@ rule trinity_genome_guided:
         """
         Trinity --genome_guided_bam {input.bam} \
             --genome_guided_max_intron 10000 \
-            --max_memory 100G \
+            --max_memory 200G \
             --CPU {threads} \
             --output {params.dir} &>{log}
         mv {params.dir}/Trinity-GG.fasta {output.fa}
@@ -45,10 +45,12 @@ rule trinity_de_novo:
         left_reads=lambda wildcards, input: ",".join(input.r1),
         right_reads=lambda wildcards, input: ",".join(input.r2),
     threads: 24
+    resources:
+        mem_mb=102400,
     shell:
         """
         Trinity --seqType fq \
-            --max_memory 100G \
+            --max_memory 200G \
             --left {params.left_reads} \
             --right {params.right_reads} \
             --CPU {threads} \

@@ -53,7 +53,7 @@ rule merge_bams:
         bams=expand(
             "results/map_rna/{species}/{tissue}_sorted.bam",
             species="{species}",
-            tissue=["fringe", "leaf", "root", "seedling"],
+            tissue=config["rna_seq_tissues"],
         ),
     output:
         merged_bam="results/map_rna/{species}/Merge.bam",
@@ -64,7 +64,7 @@ rule merge_bams:
     threads: 8
     shell:
         """
-        samtools merge -@ {threads} -o {output.merged_bam} {input.bams} &>>{log}
+        samtools merge -@ {threads} -o {output.merged_bam} {input.bams} &>{log}
         """
 
 
