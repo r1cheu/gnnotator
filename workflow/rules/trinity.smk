@@ -9,7 +9,10 @@ rule trinity_genome_guided:
         dir="results/trinity/{species}/trinity_genome_guided",
     conda:
         "../envs/trinity.yml"
-    threads: 24
+    threads: 32
+    resources:
+        mem_mb=102400,
+        cpus_per_task=threads,
     shell:
         """
         Trinity --genome_guided_bam {input.bam} \
@@ -44,13 +47,14 @@ rule trinity_de_novo:
         dir="results/trinity/{species}/trinity_de_novo",
         left_reads=lambda wildcards, input: ",".join(input.r1),
         right_reads=lambda wildcards, input: ",".join(input.r2),
-    threads: 24
+    threads: 32
     resources:
         mem_mb=102400,
+        cpus_per_task=threads,
     shell:
         """
         Trinity --seqType fq \
-            --max_memory 200G \
+            --max_memory 100G \
             --left {params.left_reads} \
             --right {params.right_reads} \
             --CPU {threads} \

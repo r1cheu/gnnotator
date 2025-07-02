@@ -38,10 +38,13 @@ rule pasa:
             f"logs/pasa/{wildcards.species}/pasa.log"
         ).resolve(),
     container:
-        "docker://pasapipeline/pasapipeline:2.5.3"
+        "docker://docker.1ms.run/pasapipeline/pasapipeline:2.5.3"
     log:
         "logs/pasa/{species}/pasa.log",
-    threads: 32
+    threads: 16
+    resources:
+        mem_mb=10240,
+        cpus_per_task=threads,
     shell:
         """
         cd {params.pasa_dir}
@@ -67,7 +70,9 @@ rule pasa_dbi:
         abs_fa=lambda wildcards, input: Path(input.fa).resolve(),
         abs_gff=lambda wildcards, input: Path(input.gff).resolve(),
     container:
-        "docker://pasapipeline/pasapipeline:2.5.3"
+        "docker://docker.1ms.run/pasapipeline/pasapipeline:2.5.3"
+    resources:
+        mem_mb=10240,
     shell:
         """
         cd {params.pasa_dir}

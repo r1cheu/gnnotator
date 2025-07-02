@@ -33,6 +33,8 @@ rule mask_repeat:
     log:
         "logs/mask_repeat/{species}.log",
     threads: 8
+    resources:
+        cpus_per_task=threads,
     shell:
         """
         RepeatMasker -engine rmblast -pa {threads} -nolow -species rice -dir results/mask_repeat/ {input.genome} &>{log}

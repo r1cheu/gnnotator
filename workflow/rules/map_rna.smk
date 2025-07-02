@@ -40,6 +40,8 @@ rule hisat2_align:
     conda:
         "../envs/map_rna.yml"
     threads: 8
+    resources:
+        cpus_per_task=threads,
     shell:
         """
         hisat2 -x {params.index_prefix} -1 {input.r1} -2 {input.r2} --dta --rg-id {wildcards.tissue} --rg "SM:{wildcards.tissue},LB:lib1,PL:ILLUMINA" -S {params.prefix}.sam -p {threads} &>{log}
@@ -62,6 +64,8 @@ rule merge_bams:
     log:
         "logs/map_rna/{species}/merge.log",
     threads: 8
+    resources:
+        cpus_per_task=threads,
     shell:
         """
         samtools merge -@ {threads} -o {output.merged_bam} {input.bams} &>{log}
@@ -76,6 +80,8 @@ rule stringtie:
     conda:
         "../envs/map_rna.yml"
     threads: 8
+    resources:
+        cpus_per_task=threads,
     shell:
         """
         stringtie -o {output.merged_gtf} -p {threads} {input.bam}
