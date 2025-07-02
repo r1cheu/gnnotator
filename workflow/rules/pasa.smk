@@ -11,7 +11,7 @@ rule create_pasa_config:
     log:
         "logs/pasa/{species}/create_pasa_config.log",
     script:
-        "scripts/create_pasa_config.py"
+        "../scripts/create_pasa_config.py"
 
 
 rule pasa:
@@ -31,7 +31,7 @@ rule pasa:
         abs_masked_genome=lambda w, input: Path(input.masked_genome).resolve(),
         abs_transcripts=lambda w, input: Path(input.transcripts).resolve(),
         abs_trans_gtf=lambda w, input: Path(input.trans_gtf).resolve(),
-        log=lambda w, input: Path(f"logs/pasa/{wildcards.species}/pasa.log").resolve(),
+        abs_log=lambda w: Path(f"logs/pasa/{w.species}/pasa.log").resolve(),
     container:
         "docker://docker.1ms.run/pasapipeline/pasapipeline:2.5.3"
     log:
@@ -50,7 +50,7 @@ rule pasa:
             -t {params.abs_transcripts} \
             --trans_gtf {params.abs_trans_gtf} \
             --ALIGNERS blat,gmap \
-            --CPU {threads} &> {params.log}
+            --CPU {threads} &>{params.abs_log}
         """
 
 
@@ -64,6 +64,7 @@ rule pasa_dbi:
         pasa_dir=lambda w, output: os.path.dirname(output.pasa_dbi),
         abs_fa=lambda wildcards, input: Path(input.fa).resolve(),
         abs_gff=lambda wildcards, input: Path(input.gff).resolve(),
+        abs_log=lambda w: Path(f"logs/pasa/{w.species}/pasa_dbi.log").resolve(),
     log:
         "logs/pasa/{species}/pasa_dbi.log",
     container:
@@ -73,7 +74,7 @@ rule pasa_dbi:
     shell:
         """
         cd {params.pasa_dir}
-        /usr/local/src/PASApipeline/scripts/pasa_asmbls_to_training_set.dbi --pasa_transcripts_fasta {params.abs_fa} --pasa_transcripts_gff3 {params.abs_gff}
+        /usr/local/src/PASApipeline/scripts/pasa_asmbls_to_training_set.dbi --pasa_transcripts_fasta {params.abs_fa} --pasa_transcripts_gff3 {params.abs_gff} &> {params.abs_log}
         """
 
 
@@ -89,10 +90,8 @@ rule cat_all_gff:
         "../envs/base.yml"
     log:
         "logs/pasa/{species}/cat_all_gff.log",
-    params:
-        pasa_dir=lambda w, input: os.path.dirname(input.gff),
     shell:
         """
         cat {input.gff} {input.blat_gff} {input.gmap_gff} {input.transdecoder_gff} > {output.all_gff}
-        echo "Created combined GFF3 file with PASA assemblies, BLAT alignments, GMAP alignments, and TransDecoder annotations." > {log}
+        echo "Created combined GFF3 file with PASA assemblies, BLAT alignments, GMAP alignments, and TransDecoder annotations." &> {log}
         """

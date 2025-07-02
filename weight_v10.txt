@@ -1,0 +1,8 @@
+PROTEIN miniprot  10
+TRANSCRIPT      gmap-Nipv2_DB_pasa 5
+TRANSCRIPT      blat-Nipv2_DB_pasa 5
+TRANSCRIPT      assembler-Nipv2_DB_pasa  7.5
+ABINITIO_PREDICTION     FGENESH 5
+ABINITIO_PREDICTION     SNAP 4
+ABINITIO_PREDICTION     EviAnn 7.5
+OTHER_PREDICTION        transdecoder 5
