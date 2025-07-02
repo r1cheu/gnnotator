@@ -16,7 +16,7 @@ rule hisat2_index:
     log:
         "logs/map_rna/{species}/hisat2_index.log",
     params:
-        prefix="results/map_rna/{species}/{species}",
+        prefix=lambda w, output: output.index_file[0].replace(".1.ht2", ""),
     conda:
         "../envs/map_rna.yml"
     shell:
@@ -33,8 +33,8 @@ rule hisat2_align:
     output:
         sorted_bam="results/map_rna/{species}/{tissue}_sorted.bam",
     params:
-        prefix="results/map_rna/{species}/{tissue}",
-        index_prefix="results/map_rna/{species}/{species}",
+        prefix=lambda w, output: output.sorted_bam.replace("_sorted.bam", ""),
+        index_prefix=lambda w, input: input.index[0].replace(".1.ht2", ""),
     log:
         "logs/map_rna/{species}/{tissue}_hisat2.log",
     conda:
@@ -79,10 +79,12 @@ rule stringtie:
         merged_gtf="results/map_rna/{species}/Merge.gtf",
     conda:
         "../envs/map_rna.yml"
+    log:
+        "results/map_rna/{species}/stringtie.log",
     threads: 8
     resources:
         cpus_per_task=threads,
     shell:
         """
-        stringtie -o {output.merged_gtf} -p {threads} {input.bam}
+        stringtie -o {output.merged_gtf} -p {threads} {input.bam} &>{log}
         """

@@ -6,7 +6,7 @@ rule trinity_genome_guided:
     log:
         "logs/trinity/{species}/genome_guided.log",
     params:
-        dir="results/trinity/{species}/trinity_genome_guided",
+        dir=lambda w, output: output.fa.replace(".fasta", ""),
     conda:
         "../envs/trinity.yml"
     threads: 32
@@ -44,7 +44,7 @@ rule trinity_de_novo:
     conda:
         "../envs/trinity.yml"
     params:
-        dir="results/trinity/{species}/trinity_de_novo",
+        dir=lambda w, output: output.fa.replace(".Trinity.fasta", ""),
         left_reads=lambda wildcards, input: ",".join(input.r1),
         right_reads=lambda wildcards, input: ",".join(input.r2),
     threads: 32
@@ -70,7 +70,12 @@ rule combine_trinity_outputs:
         genome_guided=rules.trinity_genome_guided.output.fa,
     output:
         combined="results/trinity/{species}/{species}.fa",
+    log:
+        "logs/trinity/{species}/combine.log",
+    conda:
+        "../envs/base.yml"
     shell:
         """
         cat {input.denovo} {input.genome_guided} > {output.combined}
+        echo "Combined Trinity outputs into {output.combined}" &> {log}
         """

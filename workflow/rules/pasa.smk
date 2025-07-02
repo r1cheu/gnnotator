@@ -6,15 +6,12 @@ rule create_pasa_config:
         pasa_config="results/pasa/{species}/pasa.alignAssembly.txt",
     params:
         conf=config["pasa_config"],
-    run:
-        db_name = f"/tmp/{wildcards.species}_DB_pasa.sqlite"
-        script_params = params.conf["params"]
-
-        with open(output.pasa_config, "w") as f:
-            f.write(f"DATABASE={db_name}\n")
-            for script_name, params_dict in script_params.items():
-                for param_key, param_val in params_dict.items():
-                    f.write(f"{script_name}:{param_key}={param_val}\n")
+    conda:
+        "../envs/base.yml"
+    log:
+        "logs/pasa/{species}/create_pasa_config.log",
+    script:
+        "scripts/create_pasa_config.py"
 
 
 rule pasa:
@@ -29,14 +26,12 @@ rule pasa:
         gmap_gff="results/pasa/{species}/{species}_DB_pasa.sqlite.valid_gmap_alignments.gff3",
         assemblies="results/pasa/{species}/{species}_DB_pasa.sqlite.assemblies.fasta",
     params:
-        pasa_dir="results/pasa/{species}",
-        abs_pasa_config=lambda wildcards, input: Path(input.pasa_config).resolve(),
-        abs_masked_genome=lambda wildcards, input: Path(input.masked_genome).resolve(),
-        abs_transcripts=lambda wildcards, input: Path(input.transcripts).resolve(),
-        abs_trans_gtf=lambda wildcards, input: Path(input.trans_gtf).resolve(),
-        log=lambda wildcards, input: Path(
-            f"logs/pasa/{wildcards.species}/pasa.log"
-        ).resolve(),
+        pasa_dir=lambda w, input: os.path.dirname(input.pasa_config),
+        abs_pasa_config=lambda w, input: Path(input.pasa_config).resolve(),
+        abs_masked_genome=lambda w, input: Path(input.masked_genome).resolve(),
+        abs_transcripts=lambda w, input: Path(input.transcripts).resolve(),
+        abs_trans_gtf=lambda w, input: Path(input.trans_gtf).resolve(),
+        log=lambda w, input: Path(f"logs/pasa/{wildcards.species}/pasa.log").resolve(),
     container:
         "docker://docker.1ms.run/pasapipeline/pasapipeline:2.5.3"
     log:
@@ -66,9 +61,11 @@ rule pasa_dbi:
     output:
         pasa_dbi="results/pasa/{species}/{species}_DB_pasa.sqlite.assemblies.fasta.transdecoder.genome.gff3",
     params:
-        pasa_dir="results/pasa/{species}",
+        pasa_dir=lambda w, output: os.path.dirname(output.pasa_dbi),
         abs_fa=lambda wildcards, input: Path(input.fa).resolve(),
         abs_gff=lambda wildcards, input: Path(input.gff).resolve(),
+    log:
+        "logs/pasa/{species}/pasa_dbi.log",
     container:
         "docker://docker.1ms.run/pasapipeline/pasapipeline:2.5.3"
     resources:
@@ -88,9 +85,14 @@ rule cat_all_gff:
         transdecoder_gff=rules.pasa_dbi.output.pasa_dbi,
     output:
         all_gff="results/pasa/{species}/{species}.gff3",
+    conda:
+        "../envs/base.yml"
+    log:
+        "logs/pasa/{species}/cat_all_gff.log",
     params:
-        pasa_dir="results/pasa/{species}",
+        pasa_dir=lambda w, input: os.path.dirname(input.gff),
     shell:
         """
         cat {input.gff} {input.blat_gff} {input.gmap_gff} {input.transdecoder_gff} > {output.all_gff}
+        echo "Created combined GFF3 file with PASA assemblies, BLAT alignments, GMAP alignments, and TransDecoder annotations." > {log}
         """

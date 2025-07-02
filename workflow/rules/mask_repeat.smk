@@ -5,17 +5,19 @@ rule install_repeatmasker_library:
         touch("results/repeatmaskerlibraries-20150807.done"),
     conda:
         "../envs/mask_repeat.yml"
+    log:
+        "logs/install_repeatmasker_library.log",
     shell:
         """
         RM_EXECUTABLE=$(which RepeatMasker)
         TARGET_DIR=$(dirname "${{RM_EXECUTABLE}}")/../share/RepeatMasker/
 
-        echo "Found RepeatMasker executable at: ${{RM_EXECUTABLE}}"
-        echo "Target directory for RepeatMasker libraries: ${{TARGET_DIR}}"
+        echo "Found RepeatMasker executable at: ${{RM_EXECUTABLE}}" &>{log}
+        echo "Target directory for RepeatMasker libraries: ${{TARGET_DIR}}" &>>{log}
 
-        echo "Extracting RepeatMasker libraries ..."
+        echo "Extracting RepeatMasker libraries ..." &>>{log}
         tar -xzf {input.libraries} -C ${{TARGET_DIR}}
-        echo "RepeatMasker libraries installed successfully."
+        echo "RepeatMasker libraries installed successfully." &>>{log}
         """
 
 
