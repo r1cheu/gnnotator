@@ -1,5 +1,19 @@
 # Changelog
 
+## 1.0.0 (2025-07-02)
+
+
+### Features
+
+* add cpu config for rules ([7d92a44](https://github.com/r1cheu/gnnotator/commit/7d92a44e99866a176c1196fbedafaeba46a3cd10))
+* add mask_repeat ([7847fbc](https://github.com/r1cheu/gnnotator/commit/7847fbce6c1cfcf6edf9cdb0d25b36a510e9fb87))
+* add pasapipeline rules ([b00593b](https://github.com/r1cheu/gnnotator/commit/b00593b7efef846d8175fd4014a283eddcfc9040))
+* add RNA mapping workflow with hisat2 and stringtie ([f6a62f0](https://github.com/r1cheu/gnnotator/commit/f6a62f0f3ddf9755d25d4ea7f74ace7bf5ecbe41))
+* add slurm config ([53dfd46](https://github.com/r1cheu/gnnotator/commit/53dfd46f637671629ccb8ba24f7069af33220101))
+* add trinity rule and update config for gene prediction ([54be3ce](https://github.com/r1cheu/gnnotator/commit/54be3ce9049e99ecc1a767627cd0ad39c2c210ea))
+* add trinity rules, draft rules for pasa and gene_prediction ([297b7bb](https://github.com/r1cheu/gnnotator/commit/297b7bb7ffd0335b77ce1d94f3d164b4f063374d))
+* lint the workflow ([4c2eb66](https://github.com/r1cheu/gnnotator/commit/4c2eb66b4a1a559bbbe647edc9ae01a19965f410))
+
 ## 1.0.0 (2025-05-07)
 
 
