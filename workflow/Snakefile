@@ -15,6 +15,8 @@ include: "rules/mask_repeat.smk"
 include: "rules/map_rna.smk"
 include: "rules/trinity.smk"
 include: "rules/pasa.smk"
+include: "rules/gene_prediction.smk"
+include: "rules/evm_combine.smk"
 
 
 # optional messages, log and error handling
@@ -35,5 +37,5 @@ onerror:
 # -----------------------------------------------------
 rule all:
     input:
-        "results/pasa/1GS-002/1GS-002.gff3",
+        "results/evm/1GS-002/1GS-002.EVM.aa.fasta",
     default_target: True

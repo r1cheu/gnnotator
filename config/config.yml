@@ -1,6 +1,3 @@
-# ---------------------------------------------------
-# PASA Pipeline Configuration
-# ---------------------------------------------------
 pasa_config:
   params:
     validate_alignments_in_db.dbi:
@@ -10,6 +7,20 @@ pasa_config:
 
     subcluster_builder.dbi:
       -m: 50
+
+evm_weights:
+  PROTEIN:
+    miniprot: 10
+  TRANSCRIPT:
+    gmap: 5
+    blat: 5
+    assembler: 7.5
+  ABINITIO_PREDICTION:
+    FGENESH: 5
+    SNAP: 4
+    EviAnn: 7.5
+  OTHER_PREDICTION:
+    transdecoder: 5
 
 rna_seq_tissues:
   - fringe

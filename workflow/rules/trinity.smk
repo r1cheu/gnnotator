@@ -7,8 +7,8 @@ rule trinity_genome_guided:
         "logs/trinity/{species}/genome_guided.log",
     params:
         dir=lambda w, output: output.fa.replace(".fasta", ""),
-    conda:
-        "../envs/trinity.yml"
+    container:
+        "docker://trinityrnaseq/trinityrnaseq"
     threads: 32
     resources:
         mem_mb=102400,
@@ -41,8 +41,8 @@ rule trinity_de_novo:
         fa="results/trinity/{species}/trinity_de_novo.Trinity.fasta",
     log:
         "logs/trinity/{species}/denovo.log",
-    conda:
-        "../envs/trinity.yml"
+    container:
+        "docker://trinityrnaseq/trinityrnaseq"
     params:
         dir=lambda w, output: output.fa.replace(".Trinity.fasta", ""),
         left_reads=lambda wildcards, input: ",".join(input.r1),
