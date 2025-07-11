@@ -1,3 +1,5 @@
+container_mirror: docker.xuanyuan.me
+
 pasa_config:
   params:
     validate_alignments_in_db.dbi:

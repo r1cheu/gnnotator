@@ -8,7 +8,7 @@ rule trinity_genome_guided:
     params:
         dir=lambda w, output: output.fa.replace(".fasta", ""),
     container:
-        "docker://trinityrnaseq/trinityrnaseq"
+        container_image("trinityrnaseq/trinityrnaseq:2.15.2")
     threads: 32
     resources:
         mem_mb=102400,
@@ -42,7 +42,7 @@ rule trinity_de_novo:
     log:
         "logs/trinity/{species}/denovo.log",
     container:
-        "docker://trinityrnaseq/trinityrnaseq"
+        container_image("trinityrnaseq/trinityrnaseq:2.15.2")
     params:
         dir=lambda w, output: output.fa.replace(".Trinity.fasta", ""),
         left_reads=lambda wildcards, input: ",".join(input.r1),

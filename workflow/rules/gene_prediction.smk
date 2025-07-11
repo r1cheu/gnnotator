@@ -7,7 +7,7 @@ rule fgenesh:
     output:
         fg="results/gene_prediction/{species}/{species}.fgenesh",
     container:
-        "docker://leizzzz/ppd:3.1.1"
+        container_image("leizzzz/ppd:3.1.1")
     log:
         "logs/gene_prediction/{species}/fgenesh.log",
     shell:
@@ -22,7 +22,7 @@ rule fgenesh_name:
     output:
         name="results/gene_prediction/{species}/{species}.fgenesh.name",
     container:
-        "docker://leizzzz/ppd:3.1.1"
+        container_image("leizzzz/ppd:3.1.1")
     log:
         "logs/gene_prediction/{species}/fgenesh_name.log",
     shell:
@@ -37,7 +37,7 @@ rule fgenesh_gff3:
     output:
         gff3="results/gene_prediction/{species}/{species}.fgenesh.forEVM.gff3",
     container:
-        "docker://brianjohnhaas/evidencemodeler"
+        container_image("brianjohnhaas/evidencemodeler:2.1.0")
     log:
         "logs/gene_prediction/{species}/fgenesh_gff3.log",
     shell:
@@ -52,7 +52,7 @@ rule snap:
     output:
         snap="results/gene_prediction/{species}/{species}.snap.gff3",
     container:
-        "docker://leizzzz/snap:4ad1e95"
+        container_image("leizzzz/snap:4ad1e95")
     log:
         "logs/gene_prediction/{species}/snap.log",
     shell:
@@ -67,7 +67,7 @@ rule snap_gff3:
     output:
         gff3="results/gene_prediction/{species}/{species}.snap.forEVM.gff3",
     container:
-        "docker://brianjohnhaas/evidencemodeler"
+        container_image("brianjohnhaas/evidencemodeler:2.1.0")
     log:
         "logs/gene_prediction/{species}/snap_gff3.log",
     shell:
@@ -102,7 +102,7 @@ rule eviann:
     output:
         gff3="results/gene_prediction/{species}/{species}.masked.fa.pseudo_label.gff",
     container:
-        "docker://leizzzz/eviann:2.0.2"
+        container_image("leizzzz/eviann:2.0.2")
     threads: 20
     log:
         "logs/gene_prediction/{species}/eviann.log",
@@ -157,7 +157,7 @@ rule miniprot_forEVM:
     output:
         evm_gff="results/gene_prediction/{species}/{species}.mpt.forEVM.gff3",
     container:
-        "docker://brianjohnhaas/evidencemodeler"
+        container_image("brianjohnhaas/evidencemodeler:2.1.0")
     log:
         "logs/gene_prediction/{species}/miniprot_forEVM.log",
     shell:

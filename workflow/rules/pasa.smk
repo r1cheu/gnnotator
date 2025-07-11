@@ -33,7 +33,7 @@ rule pasa:
         abs_trans_gtf=lambda w, input: Path(input.trans_gtf).resolve(),
         abs_log=lambda w: Path(f"logs/pasa/{w.species}/pasa.log").resolve(),
     container:
-        "docker://docker.1ms.run/pasapipeline/pasapipeline:2.5.3"
+        container_image("pasapipeline/pasapipeline:2.5.3")
     log:
         "logs/pasa/{species}/pasa.log",
     threads: 16
@@ -68,7 +68,7 @@ rule pasa_dbi:
     log:
         "logs/pasa/{species}/pasa_dbi.log",
     container:
-        "docker://docker.1ms.run/pasapipeline/pasapipeline:2.5.3"
+        container_image("pasapipeline/pasapipeline:2.5.3")
     resources:
         mem_mb=10240,
     shell:

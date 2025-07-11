@@ -33,7 +33,7 @@ rule evidencemodeler:
     log:
         "logs/evm/{species}/evidencemodeler.log",
     container:
-        "docker://brianjohnhaas/evidencemodeler"
+        container_image("brianjohnhaas/evidencemodeler:2.1.0")
     shell:
         """
         cd {params.dir}
