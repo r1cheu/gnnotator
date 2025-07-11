@@ -15,7 +15,7 @@ rule mask_repeat:
         cpus_per_task=threads,
     shell:
         """
-        RepeatMasker -engine rmblast -pa {threads} -nolow -species rice -dir results/mask_repeat/ {input.genome} &>{log}
+        micromamba run -n base RepeatMasker -engine rmblast -pa {threads} -nolow -species rice -dir results/mask_repeat/ {input.genome} &>{log}
 
         mv results/mask_repeat/{wildcards.species}.fa.masked {output.masked}
 
