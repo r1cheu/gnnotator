@@ -19,13 +19,15 @@ rule mask_repeat:
         dir=lambda w, output: Path(output.masked).parent.resolve(),
         masked=lambda w, output: Path(output.masked).resolve(),
         tbl=lambda w, output: Path(output.tbl).resolve(),
+        log=lambda w: Path(f"logs/mask_repeat/{w.species}.log").resolve(),
     threads: 8
     resources:
         cpus_per_task=threads,
     shell:
         """
+        mkdir -p {params.dir}
         cd {params.dir}
-        micromamba run -n base RepeatMasker -engine rmblast -pa {threads} -nolow -species rice -dir {params.dir} {params.genome} &>{log}
+        micromamba run -n base RepeatMasker -engine rmblast -pa {threads} -nolow -species rice -dir {params.dir} {params.genome} &>{params.log}
 
         mv {wildcards.species}.fa.masked {params.masked}
         mv {wildcards.species}.fa.tbl {params.tbl} 
