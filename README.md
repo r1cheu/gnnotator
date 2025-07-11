@@ -9,7 +9,7 @@
 
 A Snakemake workflow for `genome annotation`
 
-- [Snakemake workflow: `gnnotator`](#snakemake-workflow-name)
+- [Snakemake workflow: `gnnotator`](#snakemake-workflow-gnnotator)
   - [Usage](#usage)
   - [Deployment options](#deployment-options)
   - [Authors](#authors)
@@ -68,10 +68,10 @@ snakemake --cores 20 --sdm conda apptainer --profile slurm
   - home page
 
 - ZhouLin Gu
-  - design the original pipeline
-  - Affiliation
-  - ORCID profile
-  - home page
+  - Design the original pipeline
+  - Center for Excellence in Molecular Plant Sciences
+  - [ORCID](https://orcid.org/0000-0001-7732-9515)
+  
 
 ## References
 
