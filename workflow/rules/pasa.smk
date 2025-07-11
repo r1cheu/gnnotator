@@ -18,7 +18,7 @@ rule pasa:
     input:
         pasa_config="results/pasa/{species}/pasa.alignAssembly.txt",
         transcripts="results/trinity/{species}/{species}.fa",
-        masked_genome="results/mask_repeat/{species}.masked.fa",
+        masked_genome=rules.mask_repeat.output.masked,
         trans_gtf="results/map_rna/{species}/Merge.gtf",
     output:
         assemblies_gff="results/pasa/{species}/{species}_DB_pasa.sqlite.pasa_assemblies.gff3",

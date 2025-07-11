@@ -1,6 +1,6 @@
 rule hisat2_index:
     input:
-        masked_fa="results/mask_repeat/{species}.masked.fa",
+        masked_fa=rules.mask_repeat.output.masked,
     output:
         index_file=multiext(
             "results/map_rna/{species}/{species}",
