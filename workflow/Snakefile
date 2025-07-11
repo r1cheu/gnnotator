@@ -9,15 +9,35 @@
 configfile: "config/config.yml"
 
 
-def container_image(image_name):
-    """
-    Helper function to change mirror prefixes for container images.
-    """
-    return "docker://" + config["container_mirror"] + "/" + image_name
+import pandas as pd
+from pathlib import Path
+
+try:
+    SAMPLES_DF = pd.read_csv("config/samples.tsv", sep="\t")
+    SAMPLES = SAMPLES_DF["id"].tolist()
+
+except FileNotFoundError:
+    msg = "config/samples.tsv not found. Please ensure it exists and is correctly formatted."
+    raise FileNotFoundError(msg)
+
+for sample in SAMPLES:
+    if not os.path.exists(f"data/assembly/{sample}.fa"):
+        msg = f"Missing assembly data for sample {sample}. Expected file: data/assembly/{sample}.fa."
+        raise ValueError(msg)
+    for tissue in config["rna_seq_tissue"]:
+        r1_path = f"data/rnaseq/{sample}_{tissue}_R1.fastq"
+        r2_path = f"data/rnaseq/{sample}_{tissue}_R2.fastq"
+
+        if not (os.path.exists(r1_path) and os.path.exists(r2_path)):
+            msg = (
+                f"Missing RNA-Seq data for sample {sample} and tissue {tissue}. "
+                f"Expected files: {r1_path} and {r2_path}."
+            )
+            raise FileNotFoundError(msg)
 
 
 # load rules
-# -----------------------------------------------------
+include: "rules/common.smk"
 include: "rules/mask_repeat.smk"
 include: "rules/map_rna.smk"
 include: "rules/trinity.smk"
@@ -27,7 +47,6 @@ include: "rules/evm_combine.smk"
 
 
 # optional messages, log and error handling
-# -----------------------------------------------------
 onstart:
     print("\n--- Analysis started ---\n")
 
@@ -44,5 +63,5 @@ onerror:
 # -----------------------------------------------------
 rule all:
     input:
-        "results/evm/1GS-002/1GS-002.EVM.aa.fasta",
+        expand("results/evm/{sample}/{sample}.EVM.aa.fasta", sample=SAMPLES),
     default_target: True

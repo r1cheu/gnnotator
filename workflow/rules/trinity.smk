@@ -30,12 +30,12 @@ rule trinity_de_novo:
         r1=expand(
             "data/rnaseq/{species}_{tissue}_R1.fastq",
             species="{species}",
-            tissue=["fringe", "leaf", "root", "seedling"],
+            tissue=config["rna_seq_tissue"],
         ),
         r2=expand(
             "data/rnaseq/{species}_{tissue}_R2.fastq",
             species="{species}",
-            tissue=["fringe", "leaf", "root", "seedling"],
+            tissue=config["rna_seq_tissue"],
         ),
     output:
         fa="results/trinity/{species}/trinity_de_novo.Trinity.fasta",

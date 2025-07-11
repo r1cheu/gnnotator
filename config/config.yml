@@ -24,7 +24,7 @@ evm_weights:
   OTHER_PREDICTION:
     transdecoder: 5
 
-rna_seq_tissues:
+rna_seq_tissue:
   - fringe
   - leaf
   - root

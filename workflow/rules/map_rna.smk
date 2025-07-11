@@ -55,7 +55,7 @@ rule merge_bams:
         bams=expand(
             "results/map_rna/{species}/{tissue}_sorted.bam",
             species="{species}",
-            tissue=config["rna_seq_tissues"],
+            tissue=config["rna_seq_tissue"],
         ),
     output:
         merged_bam="results/map_rna/{species}/Merge.bam",
