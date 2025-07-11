@@ -32,7 +32,7 @@ To run the workflow from command line, change the working directory. This workfl
 cd gnnotator
 ```
 
-Adjust options in the default config file `config/config.yml`.
+Provide your own input data in the `data/` directory. The default config file is located at `config/config.yml`.
 Before running the complete workflow, you can perform a dry run using:
 
 ```bash
@@ -47,14 +47,17 @@ snakemake --cores 20 --sdm conda apptainer --conda-create-envs-only
 
 ```
 
-To run the workflow with **apptainer** / **singularity**, add a link to a container registry in the `Snakefile`, for example `container: "oras://ghcr.io/<user>/<repository>:<version>"` for Github's container registry.
 Run the workflow with:
 
 ```bash
 snakemake --cores 20 --sdm conda apptainer
 ```
 
-It's recommended to run the workflow with slurm
+It's recommended to run the workflow with slurm, and do not forget to change account in the `slurm/config.yaml` file if you are using slurm.
+
+```bash
+snakemake --cores 20 --sdm conda apptainer --profile slurm
+```
 
 ## Authors
 

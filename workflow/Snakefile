@@ -10,7 +10,6 @@ configfile: "config/config.yml"
 
 
 import pandas as pd
-from pathlib import Path
 
 try:
     SAMPLES_DF = pd.read_csv("config/samples.tsv", sep="\t")
@@ -19,21 +18,6 @@ try:
 except FileNotFoundError:
     msg = "config/samples.tsv not found. Please ensure it exists and is correctly formatted."
     raise FileNotFoundError(msg)
-
-for sample in SAMPLES:
-    if not os.path.exists(f"data/assembly/{sample}.fa"):
-        msg = f"Missing assembly data for sample {sample}. Expected file: data/assembly/{sample}.fa."
-        raise ValueError(msg)
-    for tissue in config["rna_seq_tissue"]:
-        r1_path = f"data/rnaseq/{sample}_{tissue}_R1.fastq"
-        r2_path = f"data/rnaseq/{sample}_{tissue}_R2.fastq"
-
-        if not (os.path.exists(r1_path) and os.path.exists(r2_path)):
-            msg = (
-                f"Missing RNA-Seq data for sample {sample} and tissue {tissue}. "
-                f"Expected files: {r1_path} and {r2_path}."
-            )
-            raise FileNotFoundError(msg)
 
 
 # load rules
