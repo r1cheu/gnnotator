@@ -1,7 +1,7 @@
 # Snakemake workflow: `gnnotator`
 
 [![Snakemake](https://img.shields.io/badge/snakemake-≥8.0.0-brightgreen.svg)](https://snakemake.github.io)
-[![GitHub actions status](https://github.com/r1cheu/gnnotator/workflows/Tests/badge.svg?branch=main)](https://github.com/r1cheu/gnnotator/actions?query=branch%3Amain+workflow%3ATests)
+[![GitHub actions status](https://github.com/r1cheu/gnnotator/actions/workflows/main.yml/badge.svg?branch=main)](https://github.com/r1cheu/gnnotator/actions?query=branch%3Amain+workflow%3ATests)
 [![run with conda](http://img.shields.io/badge/run%20with-conda-3EB049?labelColor=000000&logo=anaconda)](https://docs.conda.io/en/latest/)
 [![run with apptainer](https://img.shields.io/badge/run%20with-apptainer-52307c?labelColor=000000&logo=apptainer)](https://apptainer.org/)
 
@@ -43,11 +43,11 @@ You can prepare the environments with:
 
 ```bash
 
-snakemake --cores 20 --sdm conda apptainer --conda-create-envs-only
+snakemake --sdm conda apptainer --conda-create-envs-only
 
 ```
 
-Run the workflow with:
+Run the workflow with 20 cores:
 
 ```bash
 snakemake --cores 20 --sdm conda apptainer
@@ -56,22 +56,29 @@ snakemake --cores 20 --sdm conda apptainer
 It's recommended to run the workflow with slurm, and do not forget to change account in the `slurm/config.yaml` file if you are using slurm.
 
 ```bash
-snakemake --cores 20 --sdm conda apptainer --profile slurm
+snakemake --sdm conda apptainer --profile slurm
+
+```
+
+Use the `--ri` to rerun the uncompleted jobs:
+
+```bash
+snakemake --sdm conda apptainer --profile slurm --ri
+
 ```
 
 ## Authors
 
 - RuLei Chen
-  - develop the snakemake workflow
-  - Affiliation
-  - ORCID profile
-  - home page
+  - Develop the snakemake workflow
+  - Center for Excellence in Molecular Plant Sciences
+  - [ORCID](https://orcid.org/0009-0000-9645-0951)
+  - [github](https://github.com/r1hceu)
 
 - ZhouLin Gu
   - Design the original pipeline
   - Center for Excellence in Molecular Plant Sciences
   - [ORCID](https://orcid.org/0000-0001-7732-9515)
-  
 
 ## References
 

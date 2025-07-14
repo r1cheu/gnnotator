@@ -4,7 +4,7 @@ This workflow is a workflow for `genome annotation`.
 The workflow is built using [snakemake](https://snakemake.readthedocs.io/en/stable/) and consists of the following steps:
 
 1. Annotate and mask interspersed repeats and low complexity DNA sequences (`RepeatMasker`) in assemblies
-2. Conduct transcript-based gene predictions, including RNA-seq reads alignment (`hisat2`) and alignment assembly pipeline (`StringTie`, `Trinity`, `PASA`) 
+2. Conduct transcript-based gene predictions, including RNA-seq reads alignment (`hisat2`) and alignment assembly pipeline (`StringTie`, `Trinity`, `PASA`)
 3. Conduct ab initio gene predictions based on `Fgenesh`, `SNAP` and `Eviann`
 4. Conduct homology-based annotation by `miniprot`
 5. Combine ab intio gene predictions and protein and transcript alignments into weighted consensus gene structures by `EVM`
