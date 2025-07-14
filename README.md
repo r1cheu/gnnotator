@@ -73,7 +73,7 @@ snakemake --sdm conda apptainer --profile slurm --ri
   - Develop the snakemake workflow
   - Center for Excellence in Molecular Plant Sciences
   - [ORCID](https://orcid.org/0009-0000-9645-0951)
-  - [github](https://github.com/r1hceu)
+  - [github](https://github.com/r1cheu)
 
 - ZhouLin Gu
   - Design the original pipeline
